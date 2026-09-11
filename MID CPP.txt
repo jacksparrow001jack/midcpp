@@ -1,0 +1,632 @@
+SET1:MOBILE DATA BILL
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    float dataUsed, baseBill = 0, surcharge = 0;
+    
+    // Read the amount of data used
+    cin >> dataUsed;
+
+    // Calculate base bill based on the pricing tiers
+    if (dataUsed <= 2) {
+        baseBill = dataUsed * 100;
+    } else if (dataUsed <= 5) {
+        baseBill = (2 * 100) + ((dataUsed - 2) * 75);
+    } else {
+        baseBill = (2 * 100) + (3 * 75) + ((dataUsed - 5) * 50);
+    }
+
+    // Apply a 5% additional surcharge if the bill exceeds 500
+    if (baseBill > 500) {
+        surcharge = baseBill * 0.05;
+    }
+
+    // Display the output
+    cout << "Data Used: " << dataUsed << " GB\n";
+    cout << "Base Bill: Rs " << baseBill << "\n";
+    if (surcharge > 0) cout << "Surcharge: Rs " << surcharge << "\n";
+    cout << "Final Bill: Rs " << baseBill + surcharge << "\n";
+
+    return 0;
+}
+
+SET2:ATM Withdrawal Solution
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int amount;
+    int notes500 = 0, notes200 = 0, notes100 = 0;
+    
+    // Read the withdrawal amount
+    cin >> amount;
+
+    // Check if the withdrawal limit is exceeded
+    if (amount > 20000) {
+        cout << "Withdrawal Limit Exceeded\n";
+        return 0; // End the program early
+    }
+
+    // Check if the amount is a multiple of 100
+    if (amount % 100 != 0) {
+        cout << "Invalid amount. Must be a multiple of Rs 100.\n";
+        return 0;
+    }
+
+    // Calculate the number of each note required
+    notes500 = amount / 500;
+    amount = amount % 500; // Remaining amount after 500 notes
+
+    notes200 = amount / 200;
+    amount = amount % 200; // Remaining amount after 200 notes
+
+    notes100 = amount / 100;
+    // No need for remainder here since it's the smallest denomination
+
+    // Calculate total notes
+    int totalNotes = notes500 + notes200 + notes100;
+
+    // Display the output
+    cout << "Rs 500 notes: " << notes500 << "\n";
+    cout << "Rs 200 notes: " << notes200 << "\n";
+    cout << "Rs 100 notes: " << notes100 << "\n";
+    cout << "Total Notes: " << totalNotes << "\n";
+
+    return 0;
+}
+
+Set 3: Student Result Analyser Solution
+
+
+#include <iostream>
+#include <iomanip> // Required for setting decimal precision
+
+using namespace std;
+
+// Function to calculate the grade based on the average
+char calculateGrade(float average) {
+    if (average >= 90) return 'A';
+    else if (average >= 80) return 'B';
+    else if (average >= 70) return 'C';
+    else if (average >= 60) return 'D';
+    else if (average >= 50) return 'E';
+    else return 'F';
+}
+
+int main() {
+    int marks[5];
+    int total = 0;
+    bool isPass = true;
+
+    // Read the 5 subject marks
+    for (int i = 0; i < 5; i++) {
+        cin >> marks[i];
+        total += marks[i];
+        
+        // Check if the student scored at least 40 in every subject
+        if (marks[i] < 40) {
+            isPass = false;
+        }
+    }
+
+    // Calculate the average
+    float average = static_cast<float>(total) / 5;
+
+    // Display the average formatted to 2 decimal places
+    cout << fixed << setprecision(2);
+    cout << "Average: " << average << "\n";
+
+    // Call the function and display the grade
+    char grade = calculateGrade(average);
+    cout << "Grade: " << grade << "\n";
+
+    // Display the final result based on the minimum marks criteria
+    if (isPass) {
+        cout << "Result: PASS\n";
+    } else {
+        cout << "Result: FAIL\n";
+    }
+
+    return 0;
+}
+
+Set 4: Library Book Management Solution
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Create the Book class
+class Book {
+private:
+    int bookID;
+    string title;
+    string author;
+    float price;
+
+public:
+    // Helper function to read book data
+    void readDetails() {
+        cin >> bookID;
+        cin.ignore(); // Clear the newline character from the input buffer
+        getline(cin, title);
+        getline(cin, author);
+        cin >> price;
+    }
+
+    // Member function to display details
+    void displayDetails() {
+        cout << "ID: " << bookID << "\n";
+        cout << "Title: " << title << "\n";
+        cout << "Author: " << author << "\n";
+        cout << "Price: " << price << "\n"; 
+    }
+
+    // Getter methods to access private data for comparison
+    float getPrice() {
+        return price;
+    }
+
+    string getTitle() {
+        return title;
+    }
+};
+
+int main() {
+    Book book1, book2;
+
+    // Read details for both books
+    book1.readDetails();
+    book2.readDetails();
+
+    // Display information for Book 1
+    cout << "Book 1\n";
+    book1.displayDetails();
+    
+    // Display information for Book 2
+    cout << "Book 2\n";
+    book2.displayDetails();
+
+    // Determine and print the more expensive book
+    cout << "More Expensive Book: ";
+    if (book1.getPrice() > book2.getPrice()) {
+        cout << book1.getTitle() << "\n";
+    } else {
+        cout << book2.getTitle() << "\n";
+    }
+
+    return 0;
+}
+
+
+Set 5: Bank Account Solution
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class BankAccount {
+private:
+    string accountHolderName;
+    string accountNumber;
+    double balance;
+
+public:
+    // Constructor to initialise the account details
+    BankAccount(string name, string accNum, double initialBalance) {
+        accountHolderName = name;
+        accountNumber = accNum;
+        balance = initialBalance;
+    }
+
+    // Member function to deposit money
+    void deposit(double amount) {
+        balance += amount;
+    }
+
+    // Member function to withdraw money
+    void withdraw(double amount) {
+        if (amount > balance) {
+            cout << "Insufficient Balance\n";
+            displayBalance();
+        } else {
+            balance -= amount;
+            cout << "Withdrawal: " << amount << "\n";
+            cout << "Remaining Balance: " << balance << "\n";
+        }
+    }
+
+    // Member function to display current balance
+    void displayBalance() {
+        cout << "Current Balance: " << balance << "\n";
+    }
+
+    // Helper function to match the initial display in the sample output
+    void displayInitialDetails() {
+        cout << "Account Holder: " << accountHolderName << "\n";
+        cout << "Account Number: " << accountNumber << "\n";
+        cout << "Initial Balance: " << balance << "\n";
+    }
+};
+
+int main() {
+    string name, accNum;
+    double initialBalance, withdrawalAmount;
+
+    // Read input values
+    cin >> name;
+    cin >> accNum;
+    cin >> initialBalance;
+    cin >> withdrawalAmount;
+
+    // Create the BankAccount object and pass initial values to the constructor
+    BankAccount myAccount(name, accNum, initialBalance);
+
+    // Display the initial details as per the sample output
+    myAccount.displayInitialDetails();
+
+    // Process the withdrawal
+    myAccount.withdraw(withdrawalAmount);
+
+    return 0;
+}
+
+
+
+
+Set 6: Weekly Fitness Tracker Solution
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+// Function to calculate the total number of steps
+int calculateTotalSteps(int steps[], int size) {
+    int total = 0;
+    for (int i = 0; i < size; i++) {
+        total += steps[i];
+    }
+    return total;
+}
+
+// Function to determine the index of the day with the highest steps
+int getMostActiveDayIndex(int steps[], int size) {
+    int maxIndex = 0;
+    for (int i = 1; i < size; i++) {
+        if (steps[i] > steps[maxIndex]) {
+            maxIndex = i;
+        }
+    }
+    return maxIndex;
+}
+
+int main() {
+    int steps[7];
+    // Array to hold the names of the days for easy output mapping
+    string days[7] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+    // Read the steps for 7 days
+    for (int i = 0; i < 7; i++) {
+        cin >> steps[i];
+    }
+
+    // Display steps for each day
+    for (int i = 0; i < 7; i++) {
+        cout << days[i] << ": " << steps[i] << "\n";
+    }
+
+    // Calculate total and average
+    int totalSteps = calculateTotalSteps(steps, 7);
+    double averageSteps = static_cast<double>(totalSteps) / 7.0;
+
+    // Find the most active day
+    int activeDayIndex = getMostActiveDayIndex(steps, 7);
+
+    // Display total, average, and most active day
+    cout << "Total Steps: " << totalSteps << "\n";
+    cout << fixed << setprecision(2);
+    cout << "Average Steps: " << averageSteps << "\n";
+    cout << "Most Active Day: " << days[activeDayIndex] << "\n";
+
+    return 0;
+}
+
+
+Set 7: Online Shopping Discount Solution
+
+
+#include <iostream>
+#include <string>
+#include <sstream> // Required to parse the line of input
+
+using namespace std;
+
+// Function 1: Applies a default discount of 10%
+void calculateDiscount(double price) {
+    double discount = price * 0.10;
+    double finalPrice = price - discount;
+    
+    cout << "Original Price: " << price << "\n";
+    cout << "Discount: " << discount << "\n";
+    cout << "Final Price: " << finalPrice << "\n";
+}
+
+// Function 2: Applies the custom percentage provided by the customer
+void calculateDiscount(double price, double percentage) {
+    double discount = price * (percentage / 100.0);
+    double finalPrice = price - discount;
+    
+    cout << "Original Price: " << price << "\n";
+    cout << "Discount: " << discount << "\n";
+    cout << "Final Price: " << finalPrice << "\n";
+}
+
+int main() {
+    string inputLine;
+    double price, percentage;
+
+    // Read the entire line of input
+    getline(cin, inputLine);
+    stringstream ss(inputLine);
+
+    // Read the first value (price)
+    ss >> price;
+
+    // Check if there is a second value (percentage) available in the stream
+    if (ss >> percentage) {
+        // If two values are provided, call Function 2
+        calculateDiscount(price, percentage);
+    } else {
+        // If only one value is provided, call Function 1
+        calculateDiscount(price);
+    }
+
+    return 0;
+}
+
+
+Set 8: Vehicle Rental System Solution
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Base class
+class Vehicle {
+protected:
+    string vehicleNumber;
+    double dailyRate;
+
+public:
+    // Constructor to initialize base properties
+    Vehicle(string vNum, double rate) {
+        vehicleNumber = vNum;
+        dailyRate = rate;
+    }
+    
+    // Member function to calculate the rental cost
+    double calculateCost(int days) {
+        return dailyRate * days;
+    }
+};
+
+// Derived class inheriting from Vehicle
+class Car : public Vehicle {
+private:
+    int numSeats;
+
+public:
+    // Constructor utilizing the base class constructor
+    Car(string vNum, double rate, int seats) : Vehicle(vNum, rate) {
+        numSeats = seats;
+    }
+
+    // Member function to display vehicle details and the total cost
+    void displayDetails(int rentalDays) {
+        cout << "Vehicle Number: " << vehicleNumber << "\n";
+        cout << "Vehicle Type: Car\n";
+        cout << "Number of Seats: " << numSeats << "\n";
+        cout << "Daily Rate: " << dailyRate << "\n";
+        cout << "Rental Days: " << rentalDays << "\n";
+        cout << "Total Rental Cost: " << calculateCost(rentalDays) << "\n";
+    }
+};
+
+int main() {
+    string vNum;
+    double rate;
+    int seats;
+    int days;
+
+    // Read the inputs
+    cin >> vNum;
+    cin >> rate;
+    cin >> seats;
+    cin >> days;
+
+    // Create the Car object
+    Car rentalCar(vNum, rate, seats);
+
+    // Display the details and calculate the cost
+    rentalCar.displayDetails(days);
+
+    return 0;
+}
+
+
+Set 9: Payment Methods Solution
+
+#include <iostream>
+
+using namespace std;
+
+// Base class
+class Payment {
+public:
+    // Virtual function to enable runtime polymorphism
+    virtual void makePayment() {
+        cout << "Base payment method.\n";
+    }
+    
+    // Virtual destructor is good practice when using virtual functions
+    virtual ~Payment() {}
+};
+
+// Derived class for Credit Card
+class CreditCard : public Payment {
+public:
+    void makePayment() override {
+        cout << "Credit Card Payment\n";
+        cout << "Payment processed successfully.\n";
+    }
+};
+
+// Derived class for UPI
+class UPI : public Payment {
+public:
+    void makePayment() override {
+        cout << "UPI Payment\n";
+        cout << "UPI payment processed successfully.\n";
+    }
+};
+
+// Derived class for Cash
+class Cash : public Payment {
+public:
+    void makePayment() override {
+        cout << "Cash Payment\n";
+        cout << "Cash payment received successfully.\n";
+    }
+};
+
+int main() {
+    // Declare a base-class pointer
+    Payment* paymentPtr;
+
+    // Create objects for each payment type
+    CreditCard cc;
+    UPI upi;
+    Cash cash;
+
+    // Point to the Credit Card object and execute
+    paymentPtr = &cc;
+    paymentPtr->makePayment();
+
+    // Point to the UPI object and execute
+    paymentPtr = &upi;
+    paymentPtr->makePayment();
+
+    // Point to the Cash object and execute
+    paymentPtr = &cash;
+    paymentPtr->makePayment();
+
+    return 0;
+}
+
+
+Set 10: Employee Payroll Solution
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Base class
+class Employee {
+protected:
+    string name;
+    int id;
+    double basicSalary;
+
+public:
+    // Constructor to initialise basic employee information
+    Employee(string empName, int empID, double salary) {
+        name = empName;
+        id = empID;
+        basicSalary = salary;
+    }
+
+    // Virtual function to be overridden by derived classes
+    virtual void calculateSalary() {
+        cout << "Base salary calculation.\n";
+    }
+
+    // Virtual destructor 
+    virtual ~Employee() {}
+};
+
+// Derived class for Manager
+class Manager : public Employee {
+public:
+    // Constructor calling the base class constructor
+    Manager(string empName, int empID, double salary) : Employee(empName, empID, salary) {}
+
+    // Overriding the virtual function to apply a 20% allowance
+    void calculateSalary() override {
+        double finalSalary = basicSalary + (basicSalary * 0.20);
+        
+        cout << "Employee: " << name << "\n";
+        cout << "ID: " << id << "\n";
+        cout << "Type: Manager\n";
+        cout << "Basic Salary: " << basicSalary << "\n";
+        cout << "Final Salary: " << finalSalary << "\n";
+    }
+};
+
+// Derived class for Developer
+class Developer : public Employee {
+public:
+    // Constructor calling the base class constructor
+    Developer(string empName, int empID, double salary) : Employee(empName, empID, salary) {}
+
+    // Overriding the virtual function to apply a 10% allowance
+    void calculateSalary() override {
+        double finalSalary = basicSalary + (basicSalary * 0.10);
+        
+        cout << "Employee: " << name << "\n";
+        cout << "ID: " << id << "\n";
+        cout << "Type: Developer\n";
+        cout << "Basic Salary: " << basicSalary << "\n";
+        cout << "Final Salary: " << finalSalary << "\n";
+    }
+};
+
+int main() {
+    string name1, name2;
+    int id1, id2;
+    double salary1, salary2;
+
+    // Read input for the first employee (Manager)
+    cin >> name1 >> id1 >> salary1;
+    
+    // Read input for the second employee (Developer)
+    cin >> name2 >> id2 >> salary2;
+
+    // Use base-class pointers to instantiate the derived objects dynamically
+    Employee* emp1 = new Manager(name1, id1, salary1);
+    Employee* emp2 = new Developer(name2, id2, salary2);
+
+    // Demonstrate runtime polymorphism
+    emp1->calculateSalary();
+    emp2->calculateSalary();
+
+    // Clean up dynamically allocated memory
+    delete emp1;
+    delete emp2;
+
+    return 0;
+}
+
